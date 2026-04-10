@@ -1,0 +1,135 @@
+/* ===== 基础变量 ===== */
+:root {
+  --primary: #e67e22;
+  --primary-light: #f39c12;
+  --secondary: #3498db;
+  --success: #27ae60;
+  --bg: #fdf6e3;
+  --card-bg: #fff;
+  --text: #2c3e50;
+  --text-light: #7f8c8d;
+  --shadow: 0 4px 15px rgba(0,0,0,0.1);
+  --radius: 12px;
+}
+
+/* ===== 重置 ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+button { border: none; background: none; cursor: pointer; font-family: inherit; }
+
+/* ===== 布局 ===== */
+#app { max-width: 480px; margin: 0 auto; padding: 20px; min-height: 100vh; }
+
+.screen { display: none; }
+.screen.active { display: block; animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ===== 首页 ===== */
+#home header { text-align: center; margin-bottom: 30px; }
+#home h1 { font-size: 28px; color: var(--primary); margin-bottom: 8px; }
+.subtitle { color: var(--text-light); font-size: 14px; }
+
+/* 进度条 */
+.progress-overview { background: var(--card-bg); padding: 20px; border-radius: var(--radius); margin-bottom: 20px; box-shadow: var(--shadow); }
+.progress-bar { height: 12px; background: #eee; border-radius: 6px; overflow: hidden; }
+.progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); width: 0%; transition: width 0.5s ease; border-radius: 6px; }
+.progress-text { text-align: center; margin-top: 10px; font-size: 14px; color: var(--text-light); }
+.progress-text span { color: var(--primary); font-weight: bold; }
+
+/* 模式选择 */
+.mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.mode-card { background: var(--card-bg); padding: 20px; border-radius: var(--radius); text-align: center; box-shadow: var(--shadow); transition: transform 0.2s, box-shadow 0.2s; }
+.mode-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+.mode-card .icon { font-size: 32px; display: block; margin-bottom: 8px; }
+.mode-card .title { display: block; font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+.mode-card .desc { font-size: 12px; color: var(--text-light); }
+
+/* 统计 */
+.stats-section { background: var(--card-bg); padding: 16px; border-radius: var(--radius); box-shadow: var(--shadow); }
+.stats-section h3 { font-size: 14px; margin-bottom: 12px; color: var(--text-light); }
+.stats-grid { display: flex; justify-content: space-between; gap: 12px; }
+.stat-item { flex: 1; text-align: center; }
+.stat-label { font-size: 12px; color: var(--text-light); display: block; margin-bottom: 6px; }
+.mini-bar { height: 6px; background: #eee; border-radius: 3px; overflow: hidden; }
+.mini-bar .fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.3s; border-radius: 3px; }
+
+/* ===== 导航栏 ===== */
+nav { display: flex; align-items: center; justify-content: space-between; padding: 12px 0; margin-bottom: 20px; }
+.back-btn { color: var(--secondary); font-size: 14px; }
+nav h2 { font-size: 18px; }
+
+/* ===== 闪卡 ===== */
+.flashcard-container { 
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+  margin-bottom: 24px; 
+  min-height: 200px;
+}
+.flashcard { 
+  width: 220px; 
+  height: 280px; 
+  perspective: 1000px; 
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+.card-front, .card-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: var(--radius); display: flex; flex-direction: column; align-items: center; justify-content: center; box-shadow: var(--shadow); transition: transform 0.6s; background: var(--card-bg); }
+.card-back { transform: rotateY(180deg); background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; }
+.flashcard.flipped .card-front { transform: rotateY(180deg); }
+.flashcard.flipped .card-back { transform: rotateY(0deg); }
+
+.tibetan-char { font-size: 80px; line-height: 1; }
+.card-front .hint { font-size: 12px; color: var(--text-light); margin-top: 20px; }
+.wylie-text { font-size: 36px; font-weight: bold; margin-bottom: 8px; }
+.chinese-name { font-size: 24px; opacity: 0.9; margin-bottom: 16px; }
+.audio-btn { background: rgba(255,255,255,0.25); padding: 10px 20px; border-radius: 20px; color: white; font-size: 14px; transition: background 0.2s; }
+.audio-btn:hover { background: rgba(255,255,255,0.4); }
+
+.flashcard-controls { display: flex; justify-content: space-between; align-items: center; }
+.flashcard-controls button { color: var(--secondary); font-size: 14px; }
+.card-counter { color: var(--text-light); }
+
+/* ===== 选择题 ===== */
+.quiz-header, .listen-header { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 14px; color: var(--text-light); }
+.quiz-header span span, .listen-header span span { color: var(--primary); font-weight: bold; }
+
+.quiz-question { text-align: center; margin-bottom: 24px; }
+.question-label { font-size: 14px; color: var(--text-light); margin-bottom: 16px; }
+.tibetan-char.large { font-size: 72px; }
+
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.quiz-option { background: var(--card-bg); padding: 16px; border-radius: var(--radius); text-align: center; font-size: 16px; box-shadow: var(--shadow); transition: all 0.2s; border: 2px solid transparent; }
+.quiz-option:hover { border-color: var(--secondary); }
+.quiz-option.correct { background: var(--success); color: white; }
+.quiz-option.wrong { background: #e74c3c; color: white; }
+.quiz-option.disabled { opacity: 0.6; pointer-events: none; }
+
+/* ===== 连连看 ===== */
+.match-status { text-align: center; margin-bottom: 16px; color: var(--text-light); font-size: 14px; }
+.match-board { display: flex; gap: 16px; margin-bottom: 20px; }
+.match-column { flex: 1; display: flex; flex-direction: column; gap: 8px; }
+.match-item { background: var(--card-bg); padding: 12px; border-radius: 8px; text-align: center; box-shadow: var(--shadow); cursor: pointer; transition: all 0.2s; border: 2px solid transparent; }
+.match-item:hover { border-color: var(--secondary); }
+.match-item.selected { border-color: var(--primary); background: #fef3e2; }
+.match-item.matched { opacity: 0.4; pointer-events: none; background: var(--success); color: white; }
+.match-item .tib { font-size: 24px; }
+.match-item .roma { font-size: 14px; }
+.restart-btn { width: 100%; background: var(--secondary); color: white; padding: 12px; border-radius: var(--radius); font-size: 14px; }
+.match-score { font-size: 14px; color: var(--primary); }
+
+/* ===== 听音找字 ===== */
+.listen-game { text-align: center; }
+.play-sound-btn { background: var(--primary); color: white; padding: 20px 40px; border-radius: 30px; font-size: 18px; margin-bottom: 30px; transition: transform 0.2s; }
+.play-sound-btn:hover { transform: scale(1.05); }
+.play-sound-btn:active { transform: scale(0.95); }
+
+.listen-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.listen-option { background: var(--card-bg); padding: 16px; border-radius: var(--radius); text-align: center; font-size: 28px; box-shadow: var(--shadow); transition: all 0.2s; border: 2px solid transparent; }
+.listen-option:hover { border-color: var(--secondary); }
+.listen-option.correct { background: var(--success); color: white; }
+.listen-option.wrong { background: #e74c3c; color: white; }

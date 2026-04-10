@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>藏文辅音练习</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 首页 -->
+    <div id="home" class="screen active">
+      <header>
+        <h1>🧡 藏文辅音练习</h1>
+        <p class="subtitle">30个基础辅音 · 两种练习模式</p>
+      </header>
+      
+      <div class="progress-overview">
+        <div class="progress-bar">
+          <div class="progress-fill" id="total-progress"></div>
+        </div>
+        <p class="progress-text">总体进度: <span id="total-percent">0</span>%</p>
+      </div>
+
+      <div class="mode-grid">
+        <button class="mode-card" onclick="showScreen('flashcard')">
+          <span class="icon">🃏</span>
+          <span class="title">闪卡记忆</span>
+          <span class="desc">看字认音</span>
+        </button>
+        <button class="mode-card" onclick="showScreen('listen')">
+          <span class="icon">👂</span>
+          <span class="title">听音找字</span>
+          <span class="desc">听声辨字</span>
+        </button>
+      </div>
+
+      <div class="stats-section">
+        <h3>各模式进度</h3>
+        <div class="stats-grid">
+          <div class="stat-item">
+            <span class="stat-label">闪卡</span>
+            <div class="mini-bar"><div class="fill" id="flashcard-stat"></div></div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">听音</span>
+            <div class="mini-bar"><div class="fill" id="listen-stat"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 闪卡页面 -->
+    <div id="flashcard" class="screen">
+      <nav>
+        <button class="back-btn" onclick="showScreen('home')">← 返回</button>
+        <h2>闪卡记忆</h2>
+        <div class="nav-right"></div>
+      </nav>
+      
+      <div class="flashcard-container">
+        <div class="flashcard" id="current-card" onclick="playAudio()">
+          <div class="tibetan-char large" id="card-char">ཀ</div>
+        </div>
+      </div>
+
+      <div class="flashcard-controls">
+        <button onclick="prevCard()">◀ 上一张</button>
+        <span class="card-counter"><span id="card-index">1</span> / 30</span>
+        <button onclick="nextCard()">下一张 ▶</button>
+      </div>
+    </div>
+
+    <!-- 听音找字 -->
+    <div id="listen" class="screen">
+      <nav>
+        <button class="back-btn" onclick="showScreen('home')">← 返回</button>
+        <h2>听音找字</h2>
+      </nav>
+      
+      <div class="listen-header">
+        <span class="listen-progress">第 <span id="listen-num">1</span> / 10 题</span>
+        <span class="listen-score">正确: <span id="listen-correct">0</span></span>
+      </div>
+
+      <div class="listen-game">
+        <button class="play-sound-btn" onclick="playQuizAudio()">
+          🔊 点击播放发音
+        </button>
+
+        <div class="listen-options" id="listen-options">
+          <!-- 4个选项 -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <audio id="audio-player" style="display:none;"></audio>
+  <script src="app.js"></script>
+</body>
+</html>
