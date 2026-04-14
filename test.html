@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=1.0, initial-scale=1.0">
+  <title>诊断测试</title>
+  <style>
+    body { font-family: system-ui; padding: 20px; }
+    .test-btn { padding: 20px 40px; font-size: 24px; margin: 10px; cursor: pointer; }
+    #log { background: #f5f5f5; padding: 20px; white-space: pre-wrap; font-family: monospace; }
+    .screen { display: none; padding: 20px; border: 2px solid #007AFF; margin: 10px 0; }
+    .screen.active { display: block; }
+  </style>
+</head>
+<body>
+  <h1>诊断测试</h1>
+  
+  <button class="test-btn" onclick="testFn()">测试 showScreen 函数</button>
+  <button class="test-btn" onclick="location.reload()">强制刷新</button>
+  
+  <div id="log">日志...</div>
+  
+  <div id="home" class="screen active">
+    <h2>首页</h2>
+    <button onclick="showScreen('flashcard')">去闪卡页</button>
+  </div>
+  
+  <div id="flashcard">
+    <h2>闪卡页</h2>
+    <button onclick="showScreen('home')">回首页</button>
+  </div>
+  
+  <script>
+    function log(msg) {
+      document.getElementById('log').textContent = msg + '\n' + document.getElementById('log').textContent;
+    }
+    
+    function showScreen(id) {
+      log('showScreen 被调用: ' + id);
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      log('切换到: ' + id);
+    }
+    
+    function testFn() {
+      log('测试开始...');
+      log('typeof showScreen: ' + typeof showScreen);
+      log('document.getElementById: ' + typeof document.getElementById);
+      log('querySelectorAll: ' + typeof document.querySelectorAll);
+      
+      // 测试函数存在
+      if (typeof showScreen === 'function') {
+        log('✅ showScreen 是函数');
+        showScreen('flashcard');
+      } else {
+        log('❌ showScreen 不是函数!');
+      }
+    }
+    
+    log('页面加载完成');
+    log('typeof showScreen: ' + (typeof window.showScreen));
+  </script>
+</body>
+</html>
