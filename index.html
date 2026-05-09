@@ -11,8 +11,8 @@
     <!-- 首页 -->
     <div id="home" class="screen active">
       <header>
-        <h1>🧡 藏文辅音练习</h1>
-        <p class="subtitle">30个基础辅音 · 两种练习模式</p>
+        <h1>🧡 藏文学习</h1>
+        <p class="subtitle">辅音字母 · 生词闪卡 · 多种练习</p>
       </header>
       
       <div class="progress-overview">
@@ -25,7 +25,7 @@
       <div class="mode-grid">
         <button class="mode-card" onclick="showScreen('flashcard')">
           <span class="icon">🃏</span>
-          <span class="title">闪卡记忆</span>
+          <span class="title">字母闪卡</span>
           <span class="desc">看字认音</span>
         </button>
         <button class="mode-card" onclick="showScreen('listen')">
@@ -33,18 +33,27 @@
           <span class="title">听音找字</span>
           <span class="desc">听声辨字</span>
         </button>
+        <button class="mode-card" onclick="showScreen('vocab')" style="grid-column: span 2;">
+          <span class="icon">📖</span>
+          <span class="title">生词闪卡 · 第一课</span>
+          <span class="desc">32个生词 · 看藏文猜图片</span>
+        </button>
       </div>
 
       <div class="stats-section">
         <h3>各模式进度</h3>
         <div class="stats-grid">
           <div class="stat-item">
-            <span class="stat-label">闪卡</span>
+            <span class="stat-label">字母闪卡</span>
             <div class="mini-bar"><div class="fill" id="flashcard-stat"></div></div>
           </div>
           <div class="stat-item">
             <span class="stat-label">听音</span>
             <div class="mini-bar"><div class="fill" id="listen-stat"></div></div>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">生词闪卡</span>
+            <div class="mini-bar"><div class="fill" id="vocab-stat"></div></div>
           </div>
         </div>
       </div>
@@ -77,7 +86,7 @@
         <button class="back-btn" onclick="showScreen('home')">← 返回</button>
         <h2>听音找字</h2>
       </nav>
-      
+
       <div class="listen-header">
         <span class="listen-progress">第 <span id="listen-num">1</span> / 10 题</span>
         <span class="listen-score">正确: <span id="listen-correct">0</span></span>
@@ -90,6 +99,49 @@
 
         <div class="listen-options" id="listen-options">
           <!-- 4个选项 -->
+        </div>
+      </div>
+    </div>
+
+    <!-- 生词闪卡 -->
+    <div id="vocab" class="screen">
+      <nav>
+        <button class="back-btn" onclick="showScreen('home')">← 返回</button>
+        <h2>生词闪卡 · 第一课</h2>
+      </nav>
+
+      <div class="vocab-header">
+        <span class="vocab-progress">第 <span id="vocab-num">1</span> / 32 词</span>
+        <button class="vocab-shuffle-btn" onclick="shuffleVocab()">🔀 洗牌</button>
+      </div>
+
+      <div class="vocab-card-wrapper">
+        <div class="vocab-flashcard" id="vocab-card" onclick="flipVocabCard()">
+          <div class="vocab-front">
+            <div class="vocab-tibetan" id="vocab-tibetan">ཀ་བ།</div>
+            <div class="vocab-tap-hint">👆 点击翻转</div>
+          </div>
+          <div class="vocab-back">
+            <img class="vocab-image" id="vocab-image" src="" alt="">
+            <div class="vocab-info">
+              <span class="vocab-pos" id="vocab-pos">名词</span>
+              <span class="vocab-chinese" id="vocab-chinese">柱子</span>
+              <span class="vocab-english" id="vocab-english">pillar</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="flashcard-controls">
+        <button onclick="prevVocabCard()">◀ 上一个</button>
+        <span class="card-counter"><span id="vocab-index">1</span> / 32</span>
+        <button onclick="nextVocabCard()">下一个 ▶</button>
+      </div>
+
+      <div class="vocab-learned-bar">
+        <span>已学习: <strong id="vocab-learned-count">0</strong>/32</span>
+        <div class="mini-bar" style="flex:1; margin-left:10px;">
+          <div class="fill" id="vocab-learned-bar" style="background:var(--success);"></div>
         </div>
       </div>
     </div>

@@ -47,11 +47,49 @@ const letters = [
 ];
 
 const audioPath = 'audio/';  // 音频文件夹路径
+const vocabImgPath = 'images/vocabulary/';  // 生词图片路径
+
+// ===== 生词数据（第一课） =====
+const vocabLesson1 = [
+  { tibetan: "ཀ་བ།", chinese: "柱子", english: "pillar", pos: "名词", image: "pillar.png" },
+  { tibetan: "ཁ་བ།", chinese: "雪", english: "snow", pos: "名词", image: "snow.png" },
+  { tibetan: "ཆ་མ།", chinese: "柴火", english: "firewood", pos: "名词", image: "firewood.png" },
+  { tibetan: "ཇ་མ།", chinese: "炊事员，厨师", english: "cook", pos: "名词", image: "cook.png" },
+  { tibetan: "ར་མ།", chinese: "母山羊", english: "female goat", pos: "名词", image: "female_goat.png" },
+  { tibetan: "ཟ་མ།", chinese: "食物", english: "food", pos: "名词", image: "food.png" },
+  { tibetan: "ན་ཚ།", chinese: "疾病", english: "disease", pos: "名词", image: "disease.png" },
+  { tibetan: "ས་ཆ།", chinese: "地方", english: "place", pos: "名词", image: "place.png" },
+  { tibetan: "ཁྭ་ཏ།", chinese: "乌鸦", english: "crow", pos: "名词", image: "crow.png" },
+  { tibetan: "ཀ་ཁ།", chinese: "字母", english: "alphabet", pos: "名词", image: "alphabet.png" },
+  { tibetan: "ཨ་ཕ།", chinese: "父亲", english: "father", pos: "名词", image: "father.png" },
+  { tibetan: "ཁ།", chinese: "口", english: "mouth", pos: "名词", image: "mouth.png" },
+  { tibetan: "ཇ།", chinese: "茶", english: "tea", pos: "名词", image: "tea.png" },
+  { tibetan: "ཉ།", chinese: "鱼", english: "fish", pos: "名词", image: "fish.png" },
+  { tibetan: "ལ།", chinese: "山坡", english: "hillside", pos: "名词", image: "hillside.png" },
+  { tibetan: "ཤ", chinese: "肉", english: "meat", pos: "名词", image: "meat.png" },
+  { tibetan: "ཝ།", chinese: "狐狸", english: "fox", pos: "名词", image: "fox.png" },
+  { tibetan: "ར།", chinese: "山羊", english: "goat", pos: "名词", image: "goat.png" },
+  { tibetan: "ཆ།", chinese: "对；双", english: "pair", pos: "名词", image: "pair.png" },
+  { tibetan: "ཡ།", chinese: "只；单", english: "single", pos: "名词", image: "single.png" },
+  { tibetan: "ད།", chinese: "现在", english: "now", pos: "名词", image: "now.png" },
+  { tibetan: "ཨ་མ།", chinese: "妈妈", english: "mother", pos: "名词", image: "mother.png" },
+  { tibetan: "ཁ་ཏ།", chinese: "劝诫", english: "admonition", pos: "名词", image: "admonition.png" },
+  { tibetan: "ཚ་ཚ།", chinese: "擦擦", english: "tsa-tsa", pos: "名词", image: "tsa_tsa.png" },
+  { tibetan: "ཉ་ཤ", chinese: "鱼肉", english: "fish meat", pos: "名词", image: "fish_meat.png" },
+  { tibetan: "ར་ཤ", chinese: "山羊肉", english: "goat meat", pos: "名词", image: "goat_meat.png" },
+  { tibetan: "ཝ་ཤ", chinese: "狐狸肉", english: "fox meat", pos: "名词", image: "fox_meat.png" },
+  { tibetan: "ཡ་ཡ།", chinese: "好的好的", english: "alright, alright", pos: "名词", image: "alright.png" },
+  { tibetan: "ཟ།", chinese: "吃", english: "eat", pos: "动词", image: "eat.png" },
+  { tibetan: "ཚ།", chinese: "热", english: "hot", pos: "形容词", image: "hot.png" },
+  { tibetan: "ང་།", chinese: "我（人称）", english: "I", pos: "代词", image: "i.png" },
+  { tibetan: "ལ་ལ།", chinese: "有些", english: "some", pos: "代词", image: "some.png" }
+];
 
  // ===== 状态 =====
 let progress = JSON.parse(localStorage.getItem('tibetan-progress')) || {
   flashcard: [],
-  listen: { correct: 0, total: 0 }
+  listen: { correct: 0, total: 0 },
+  vocab: []
 };
 
  // ===== 工具函数 =====
@@ -78,10 +116,11 @@ function playSound(filename) {
 function showScreen(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
-  
+
   // 进入页面时初始化
   if (id === 'flashcard') initFlashcard();
   if (id === 'listen') initListen();
+  if (id === 'vocab') initVocab();
   if (id === 'home') updateHomeProgress();
 }
 
@@ -89,13 +128,15 @@ function showScreen(id) {
 function updateHomeProgress() {
   const flashcardP = progress.flashcard.length / 30 * 100;
   const listenP = progress.listen.total > 0 ? (progress.listen.correct / progress.listen.total * 100) : 0;
-  const total = (flashcardP + listenP) / 2;
-  
+  const vocabP = progress.vocab.length / 32 * 100;
+  const total = (flashcardP + listenP + vocabP) / 3;
+
   document.getElementById('total-progress').style.width = total + '%';
   document.getElementById('total-percent').textContent = Math.round(total);
-  
+
   document.getElementById('flashcard-stat').style.width = flashcardP + '%';
   document.getElementById('listen-stat').style.width = listenP + '%';
+  document.getElementById('vocab-stat').style.width = vocabP + '%';
 }
 
  // ===== 闪卡 =====
@@ -207,5 +248,74 @@ function selectListenAnswer(id) {
   }, 1200);
 }
 
- // ===== 初始化 =====
+// ===== 生词闪卡 =====
+let vocabCards = [...vocabLesson1]; // 当前显示顺序
+let vocabIndex = 0;
+let vocabFlipped = false;
+
+function initVocab() {
+  vocabFlipped = false;
+  const card = document.getElementById('vocab-card');
+  card.classList.remove('flipped');
+  updateVocabCard();
+  updateVocabLearnedBar();
+}
+
+function updateVocabCard() {
+  const word = vocabCards[vocabIndex];
+  document.getElementById('vocab-tibetan').textContent = word.tibetan;
+  document.getElementById('vocab-image').src = vocabImgPath + word.image;
+  document.getElementById('vocab-pos').textContent = word.pos;
+  document.getElementById('vocab-chinese').textContent = word.chinese;
+  document.getElementById('vocab-english').textContent = word.english;
+  document.getElementById('vocab-num').textContent = vocabIndex + 1;
+  document.getElementById('vocab-index').textContent = vocabIndex + 1;
+
+  // 重置翻转状态
+  vocabFlipped = false;
+  document.getElementById('vocab-card').classList.remove('flipped');
+
+  // 标记已学习（看到即算学过）
+  if (!progress.vocab.includes(vocabIndex)) {
+    // 用 tibetan 文本作为唯一标识
+    if (!progress.vocab.includes(word.tibetan)) {
+      progress.vocab.push(word.tibetan);
+      saveProgress();
+    }
+  }
+  updateVocabLearnedBar();
+}
+
+function flipVocabCard() {
+  vocabFlipped = !vocabFlipped;
+  document.getElementById('vocab-card').classList.toggle('flipped');
+}
+
+function prevVocabCard() {
+  if (vocabIndex > 0) {
+    vocabIndex--;
+    updateVocabCard();
+  }
+}
+
+function nextVocabCard() {
+  if (vocabIndex < vocabCards.length - 1) {
+    vocabIndex++;
+    updateVocabCard();
+  }
+}
+
+function shuffleVocab() {
+  vocabCards = shuffle(vocabLesson1);
+  vocabIndex = 0;
+  updateVocabCard();
+}
+
+function updateVocabLearnedBar() {
+  const learned = progress.vocab.length;
+  document.getElementById('vocab-learned-count').textContent = learned;
+  document.getElementById('vocab-learned-bar').style.width = (learned / 32 * 100) + '%';
+}
+
+// ===== 初始化 =====
 updateHomeProgress();
